@@ -1,6 +1,5 @@
 package com.thomas.bluetooth;
 
-import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -8,14 +7,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
@@ -27,8 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
-
-import static android.content.ContentValues.TAG;
 
 public class Bluetooth extends CordovaPlugin  {
 
@@ -111,15 +104,16 @@ public class Bluetooth extends CordovaPlugin  {
     }
 
     private void requestPermission() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            int checkAccessFinePermission = ActivityCompat.checkSelfPermission(cordova.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
-            if (checkAccessFinePermission != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(cordova.getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_ACCESS_LOCATION);
-                Log.d(TAG, "没有权限，请求权限");
-                return;
-            }
-            Log.d(TAG, "已有定位权限");
-        }
+        //获取定位权限
+//        if (Build.VERSION.SDK_INT >= 23) {
+//            int checkAccessFinePermission = ActivityCompat.checkSelfPermission(cordova.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
+//            if (checkAccessFinePermission != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(cordova.getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_ACCESS_LOCATION);
+//                Log.d(TAG, "没有权限，请求权限");
+//                return;
+//            }
+//            Log.d(TAG, "已有定位权限");
+//        }
         //做下面该做的事
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (!mBluetoothAdapter.isEnabled()) {
