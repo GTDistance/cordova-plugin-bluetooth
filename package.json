@@ -1,0 +1,17 @@
+{
+  "name": "cordova-plugin-bluetooth",
+  "version": "0.0.1",
+  "description": "bluetooth",
+  "cordova": {
+    "id": "cordova-plugin-bluetooth",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "",
+  "license": "ISC"
+}

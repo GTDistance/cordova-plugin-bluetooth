@@ -1,5 +1,14 @@
 var exec = require('cordova/exec');
 
-exports.coolMethod = function(arg0, success, error) {
-    exec(success, error, "cordova-plugin-bluetooth", "coolMethod", [arg0]);
+var bluetooth = {
+    bluetoothSearch:function(success,error){
+        exec(success, error, "Bluetooth", "bluetoothSearch", []);
+    },
+    bluetoothSend:function(sendMessage,success,error){
+        exec(success,error,"Bluetooth","bluetoothSend",[sendMessage.ssid,sendMessage.pwd,sendMessage.address,sendMessage.psn]);
+    },
+    bluetoothStop:function () {
+      exec(null,null,"Bluetooth","bluetoothStop",[]);
+    }
 };
+module.exports = bluetooth;
