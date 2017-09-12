@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -62,7 +64,9 @@ public class Bluetooth extends CordovaPlugin  {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if ("bluetoothSearch".equals(action)){
+        if ("getWifiName".equals(action)){
+            getWifiName(callbackContext);
+        } else if ("bluetoothSearch".equals(action)){
             this.callbackContext = callbackContext;
             isSearch = true;
             searchBluetooth();
@@ -86,6 +90,21 @@ public class Bluetooth extends CordovaPlugin  {
             return true;
         }
         return false;
+    }
+
+    private void getWifiName(CallbackContext callbackContext) {
+        WifiManager wifiManager = (WifiManager) cordova.getActivity().getApplicationContext().getSystemService(cordova.getActivity().getApplicationContext().WIFI_SERVICE);
+        WifiInfo mWifiInfo = wifiManager.getConnectionInfo();
+        String ssid = null;
+        if (mWifiInfo != null ) {
+            int len = mWifiInfo.getSSID().length();
+            if (mWifiInfo.getSSID().startsWith("\"") && mWifiInfo.getSSID().endsWith("\"")) {
+                ssid = mWifiInfo.getSSID().substring(1, len - 1);
+            } else {
+                ssid = mWifiInfo.getSSID();
+            }
+        }
+        callbackContext.success(ssid);
     }
 
     private void bluetoothSend(String ssid, String pwd, String address,String psn) {
