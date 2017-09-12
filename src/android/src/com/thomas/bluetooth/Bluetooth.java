@@ -25,7 +25,7 @@ import java.util.UUID;
 
 public class Bluetooth extends CordovaPlugin  {
 
-    private static final int REQUEST_PERMISSION_ACCESS_LOCATION = 0;
+//    private static final int REQUEST_PERMISSION_ACCESS_LOCATION = 0;
 
     private BluetoothAdapter mBluetoothAdapter;
     private JSONArray jsonArray ;
@@ -247,13 +247,11 @@ public class Bluetooth extends CordovaPlugin  {
                 while (inputStream != null && clientSocket.isConnected()&&(count = inputStream.read(buffer)) != -1) {
                     Message msg = Message.obtain();
                     String receive = new String(buffer, 0, count, "utf-8");
-                    if ("-1".equals(receive)){
-                        msg.what = 1;//失败
-                        msg.obj = "wifi名称或密码错误";
-                    }else {
-                        msg.what = 0;
-                        msg.obj = "连接成功";
-                    }
+                    JSONObject jsonObject = new JSONObject(receive);
+                    int id = jsonObject.getInt("id");
+                    String content = jsonObject.getString("content");
+                    msg.what = id;//失败
+                    msg.obj = content;
                     handler.sendMessage(msg);
                     if (clientSocket!=null){
                         clientSocket.close();
