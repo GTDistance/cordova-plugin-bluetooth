@@ -18,6 +18,8 @@
             <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
             <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
             <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
         </config-file>
 
         <source-file src="src/android/src/com/thomas/bluetooth/Bluetooth.java" target-dir="src/com/thomas/bluetooth"/>
