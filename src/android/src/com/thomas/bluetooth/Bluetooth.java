@@ -64,7 +64,8 @@ public class Bluetooth extends CordovaPlugin  {
             String pwd = args.getString(1);
             String address = args.getString(2);
             String psn = args.getString(3);
-            bluetoothSend(ssid,pwd,address,psn);
+            if (checkParam(ssid,pwd,address,psn))
+                bluetoothSend(ssid,pwd,address,psn);
             return true;
         } else if ("bluetoothStop".equals(action)) {
             isSearch = false;
@@ -72,6 +73,32 @@ public class Bluetooth extends CordovaPlugin  {
             return true;
         }
         return false;
+    }
+
+    private boolean checkParam(String ssid, String pwd, String address, String psn) {
+        if (isEmpty(ssid)){
+            callbackContext.error("请填写wifi的名称");
+            return false;
+        }
+        if (isEmpty(pwd)){
+            callbackContext.error("请填写wifi的密码");
+            return false;
+        }
+        if (isEmpty(address)){
+            callbackContext.error("请填写蓝牙设备的地址");
+            return false;
+        }
+        if (isEmpty(psn)){
+            callbackContext.error("请填写设备的PSN");
+            return false;
+        }
+        return true;
+    }
+    private boolean isEmpty(String str){
+        if (str !=null &&!"".equals(str)){
+            return false;
+        }
+        return true;
     }
 
     private void getWifiName(CallbackContext callbackContext) {
@@ -219,8 +246,14 @@ public class Bluetooth extends CordovaPlugin  {
                 byte[] buffer =new byte[1024];
                 while (inputStream != null && clientSocket.isConnected()&&(count = inputStream.read(buffer)) != -1) {
                     Message msg = Message.obtain();
-                    msg.what = 0;
-                    msg.obj =new String(buffer, 0, count, "utf-8");
+                    String receive = new String(buffer, 0, count, "utf-8");
+                    if ("-1".equals(receive)){
+                        msg.what = 1;//失败
+                        msg.obj = "wifi名称或密码错误";
+                    }else {
+                        msg.what = 0;
+                        msg.obj = "连接成功";
+                    }
                     handler.sendMessage(msg);
                     if (clientSocket!=null){
                         clientSocket.close();
@@ -268,7 +301,6 @@ public class Bluetooth extends CordovaPlugin  {
             mBluetoothAdapter.cancelDiscovery();
         }
     }
-
 
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
