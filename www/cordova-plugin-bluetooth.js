@@ -2,7 +2,7 @@ var exec = require('cordova/exec');
 
 var bluetooth = {
     getWifiName:function(success){
-      exec(success, null, "Bluetooth", "bluetoothSearch", []);
+      exec(success, null, "Bluetooth", "getWifiName", []);
     },
     bluetoothSearch:function(success,error){
         exec(success, error, "Bluetooth", "bluetoothSearch", []);
