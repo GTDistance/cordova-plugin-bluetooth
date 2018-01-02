@@ -13,5 +13,9 @@
     "cordova-android"
   ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GTDistance/cordova-plugin-bluetooth.git"
+  },
 }
